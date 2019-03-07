@@ -25,11 +25,15 @@
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>homeworkx.rest</param-value>
     </init-param>
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>homeworkx.rest.AppConfig</param-value>
+    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>salesdata</servlet-name>
-    <url-pattern>/mate/*</url-pattern>
+    <url-pattern>/hw/*</url-pattern>
   </servlet-mapping>
 
   <servlet>
