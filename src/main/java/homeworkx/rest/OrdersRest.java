@@ -1,10 +1,11 @@
 package homeworkx.rest;
 
 import homeworkx.Orders;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import homeworkx.OrdersContainer;
+import lesson10.xmljson.Person;
+import org.glassfish.jersey.server.mvc.Viewable;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -32,13 +33,15 @@ public class OrdersRest {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("")
-    public Response getOrderByMfr(@PathParam("mfr") String mfr){
-        List<Orders> ordersResp = orders.stream().filter( o -> o.getMfr().equals(mfr)).collect(Collectors.toList());
-        if (ordersResp != null) {
-            return Response.status(Response.Status.OK).entity(ordersResp).type(MediaType.APPLICATION_JSON).build();
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/bymfr")
+    public Viewable getOrdersByMfr(@QueryParam("mfr") String mfr) {
+        if (mfr != null && orders.stream().anyMatch(s -> mfr.equals("" + s.getMfr()))) {
+            List<Orders> ords = orders.stream().filter(o -> mfr.equals(o.getMfr())).collect(Collectors.toList());
+            OrdersContainer ordersContainer = new OrdersContainer(ords);
+            return new Viewable("/ords-resp", ordersContainer);
         }
-        return Response.status(404).build();
+        return new Viewable("/ords");
     }
 }
