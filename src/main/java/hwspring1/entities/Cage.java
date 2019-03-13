@@ -8,14 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 @Primary
 public class Cage {
+    private int squere = 3;
     @Autowired
     @Qualifier("kesha")
     private Parrot parrot;
 
     private int id;
 
-    public Parrot getParrot() {
-        return parrot;
+    public void setSquere(int squere) {
+        this.squere = squere;
     }
 
     public void setParrot(Parrot parrot) {
